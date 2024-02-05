@@ -111,6 +111,18 @@ class Moves(Enum):
         if not Moves.is_same_side(side_1, side_2):
             return side_1 // 6 == side_2 // 6
         return False
+    
+    def undo(num):
+        num = num.value if isinstance(num, Moves) else num
+        
+        if num % 3 == 0:
+            return num + 2
+
+        elif num % 3 == 1:
+            return num
+        
+        elif num % 3 == 2:
+            return num - 2
 
 
 class Cube():
@@ -533,6 +545,9 @@ class Cube():
         """
             Solve cube and return the moves sequence for a defined maximum movements count.
         """
+        if self._verify(moves):
+            return moves
+
         for i in range(18):
             if len(moves) > 0 and Moves.is_same_side(i, moves[-1]):
                 continue
@@ -561,7 +576,7 @@ class Cube():
 
 
 if __name__ == "__main__":
-    cube = Cube(True)
+    cube = Cube()
 
     print(cube)
 
