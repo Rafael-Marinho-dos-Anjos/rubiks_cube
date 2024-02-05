@@ -152,10 +152,18 @@ class Cube():
                  dtype=np.int8)
     
     def _select_colors(self) -> None:
-        """Initiates the colors selection interface."""
-        scale_factor = 0.5
+        """
+        Initiates the colors selection interface.
+
+        Keyboard commands:
+            Chage selected color -> Arrow keys
+            Turn cube view -> TAB
+            Exit -> Esc
+            Continue -> Enter
+        """
+        scale_factor = 0.75
         x = 0
-        color = 0
+        color = -1
 
         def __draw_pallete(img):
             square_side = 35
@@ -225,7 +233,8 @@ class Cube():
                 [(450, 400), (580, 330), (690, 280)],
                 [(450, 530), (580, 480), (680, 425)],
                 [(450, 660), (570, 610), (670, 550)]
-            ]
+            ],
+            # [[47 + i*50, 757] for i in range(6)]
         ]
 
         while x != 27:
@@ -245,6 +254,13 @@ class Cube():
                     closest_dist = None
 
                     for i, face in enumerate(points):
+                        # if i == 3:
+                        #     for col, loc in enumerate(face):
+                        #         dist = (y-loc[1])**2+(x-loc[0])**2
+                        #         if dist < closest_dist:
+                        #             painted_square = col
+                        #             closest_dist = dist
+                        #     continue
                         for y_, line in enumerate(face):
                             for x_, square in enumerate(line):
                                 dist = (y-square[1])**2+(x-square[0])**2
@@ -252,6 +268,14 @@ class Cube():
                                     painted_square = (i, y_, x_)
                                     closest_dist = dist
                     
+                    # if isinstance(painted_square, int):
+                    #     color = painted_square
+                    #     cv2.imshow('image', __draw_pallete(self.plot_cube(corner)))
+                    #     return
+
+                    if closest_dist > 2500:
+                        return
+
                     if corner:
                         if painted_square[0] == 0:
                             self.make_move(Moves.D3)
