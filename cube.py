@@ -37,48 +37,43 @@ class Moves(Enum):
     B3 = 17
 
     def is_right(num) -> bool:
-        if isinstance(num, Moves):
-            num = num.value
+        num = num.value if isinstance(num, Moves) else num
         
         return num // 3 == 0
     
     def is_left(num) -> bool:
-        if isinstance(num, Moves):
-            num = num.value
+        num = num.value if isinstance(num, Moves) else num
         
         return num // 3 == 1
     
     def is_top(num) -> bool:
-        if isinstance(num, Moves):
-            num = num.value
+        num = num.value if isinstance(num, Moves) else num
         
         return num // 3 == 2
     
     def is_down(num) -> bool:
-        if isinstance(num, Moves):
-            num = num.value
+        num = num.value if isinstance(num, Moves) else num
         
         return num // 3 == 3
     
     def is_front(num) -> bool:
-        if isinstance(num, Moves):
-            num = num.value
+        num = num.value if isinstance(num, Moves) else num
         
         return num // 3 == 4
     
     def is_back(num) -> bool:
-        if isinstance(num, Moves):
-            num = num.value
+        num = num.value if isinstance(num, Moves) else num
         
         return num // 3 == 5
     
     def repetitions(num) -> int:
-        if isinstance(num, Moves):
-            num = num.value
+        num = num.value if isinstance(num, Moves) else num
         
         return num % 3 + 1
     
     def notation(num):
+        num = num.value if isinstance(num, Moves) else num
+
         if Moves.is_right(num):
             nttn = "R"
 
@@ -106,9 +101,13 @@ class Moves(Enum):
         return nttn
     
     def is_same_side(side_1, side_2):
+        side_1 = side_1.value if isinstance(side_1, Moves) else side_1
+        side_2 = side_1.value if isinstance(side_2, Moves) else side_2
         return side_1 // 3 == side_2 // 3
     
     def is_opposite_side(side_1, side_2):
+        side_1 = side_1.value if isinstance(side_1, Moves) else side_1
+        side_2 = side_1.value if isinstance(side_2, Moves) else side_2
         if not Moves.is_same_side(side_1, side_2):
             return side_1 // 6 == side_2 // 6
         return False
