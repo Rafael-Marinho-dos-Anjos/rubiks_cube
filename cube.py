@@ -170,8 +170,8 @@ class Cube():
             fill = [
                 (255, 255, 255),
                 (0, 0, 255),
-                (255, 0, 0),
                 (0, 255, 0),
+                (255, 0, 0),
                 (35, 100, 255),
                 (0, 255, 255)
             ]
@@ -236,6 +236,22 @@ class Cube():
             # [[47 + i*50, 757] for i in range(6)]
         ]
 
+        img = __draw_pallete(self.plot_cube(corner))
+
+        width = GetSystemMetrics(0)
+        height = GetSystemMetrics(1)
+        
+        scale_width = width * scale_factor / img.shape[1]
+        scale_height = height * scale_factor / img.shape[0]
+        
+        scale = min(scale_width, scale_height)
+        
+        window_width = int(img.shape[1] * scale)
+        window_height = int(img.shape[0] * scale)
+        
+        cv2.namedWindow('image', cv2.WINDOW_NORMAL)
+        cv2.resizeWindow('image', window_width, window_height)
+
         while x != 27:
             if x == 13:
                 cv2.destroyAllWindows()
@@ -299,20 +315,12 @@ class Cube():
 
             img = __draw_pallete(self.plot_cube(corner))
 
-            width = GetSystemMetrics(0)
-            height = GetSystemMetrics(1)
-            scale_width = width * scale_factor / img.shape[1]
-            scale_height = height * scale_factor / img.shape[0]
-            scale = min(scale_width, scale_height)
-            window_width = int(img.shape[1] * scale)
-            window_height = int(img.shape[0] * scale)
-            cv2.namedWindow('image', cv2.WINDOW_NORMAL)
-            cv2.resizeWindow('image', window_width, window_height)
-
             cv2.setMouseCallback('image', mouse_callback)
 
             cv2.imshow('image', img)
             x = cv2.waitKey(0)
+        
+        cv2.destroyAllWindows()
         
     def __turn_face(self, face, turn: str = "cw"):
         if turn == "cw":
@@ -556,7 +564,7 @@ if __name__ == "__main__":
     cube = Cube(True)
 
     print(cube)
-    
+
     print("\nSolving...")
     solution = cube.solve(4)
 
